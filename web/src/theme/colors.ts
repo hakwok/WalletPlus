@@ -1,0 +1,32 @@
+export const C = {
+  bg: '#000000',
+  surface: '#1C1C1E',
+  surfaceEl: '#2C2C2E',
+  surfaceHi: '#3A3A3C',
+  border: '#38383A',
+  accent: '#007AFF',
+  accentSoft: 'rgba(0,122,255,0.15)',
+  wpStart: '#7B2FBE',
+  wpEnd: '#4A90D9',
+  wpMid: '#5B5BD6',
+  success: '#30D158',
+  successSoft: 'rgba(48,209,88,0.12)',
+  warning: '#FF9F0A',
+  warningSoft: 'rgba(255,159,10,0.12)',
+  text: '#FFFFFF',
+  textSec: '#8E8E93',
+  textTer: '#48484A',
+  dining: '#FF9F0A',
+  grocery: '#30D158',
+  travel: '#5E5CE6',
+  shopping: '#007AFF',
+  entertain: '#FF375F',
+  other: '#636366',
+} as const;
+
+export const cardGrad: Record<string, string> = {
+  chase: 'linear-gradient(135deg, #1a3a6b, #0d2548)',
+  amex: 'linear-gradient(135deg, #c9963a, #8a6520)',
+  apple: 'linear-gradient(135deg, #3a3a3c, #1c1c1e)',
+  citi: 'linear-gradient(135deg, #b00020, #7a0015)',
+};
