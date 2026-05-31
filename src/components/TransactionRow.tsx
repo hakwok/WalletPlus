@@ -1,28 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { TransactionType } from '../data/walletData';
 import { Colors } from '../theme/colors';
-import { Transaction, CARDS } from '../data/mockData';
 
-type Props = {
-  transaction: Transaction;
-};
-
-export default function TransactionRow({ transaction }: Props) {
-  const card = CARDS.find(c => c.id === transaction.cardId);
-
+export default function TransactionRow({ transaction }: { transaction: TransactionType }) {
   return (
     <View style={styles.row}>
-      <View style={styles.emoji}>
-        <Text style={styles.emojiText}>{transaction.categoryEmoji}</Text>
+      <View style={[styles.icon, { backgroundColor: transaction.iconBg }]}>
+        <Text style={styles.emoji}>{transaction.emoji}</Text>
       </View>
       <View style={styles.info}>
-        <Text style={styles.merchant}>{transaction.merchant}</Text>
-        <Text style={styles.meta}>{card?.issuer} ···{card?.lastFour} · {transaction.date}</Text>
+        <Text style={styles.merchant} numberOfLines={1}>{transaction.merchant}</Text>
+        <Text style={styles.date}>{transaction.date}</Text>
       </View>
-      <View style={styles.right}>
-        <Text style={styles.amount}>-${transaction.amount.toFixed(2)}</Text>
-        <Text style={styles.rewards}>+${transaction.rewardsEarned.toFixed(2)} pts</Text>
-      </View>
+      <Text style={styles.amount}>-${transaction.amount.toFixed(2)}</Text>
     </View>
   );
 }
@@ -31,48 +22,40 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
+    paddingVertical: 10,
     paddingHorizontal: 16,
-    borderBottomWidth: 0.5,
-    borderBottomColor: Colors.border,
+    backgroundColor: Colors.secondarySystemGroupedBackground,
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+    flexShrink: 0,
   },
   emoji: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.surfaceElevated,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  emojiText: {
-    fontSize: 20,
+    fontSize: 19,
   },
   info: {
     flex: 1,
+    marginRight: 12,
   },
   merchant: {
     fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginBottom: 3,
+    fontWeight: '400',
+    color: Colors.label,
+    marginBottom: 2,
   },
-  meta: {
-    fontSize: 12,
-    color: Colors.textSecondary,
-  },
-  right: {
-    alignItems: 'flex-end',
+  date: {
+    fontSize: 13,
+    color: Colors.secondaryLabel,
   },
   amount: {
     fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginBottom: 3,
-  },
-  rewards: {
-    fontSize: 12,
-    color: Colors.success,
-    fontWeight: '500',
+    fontWeight: '400',
+    color: Colors.label,
+    flexShrink: 0,
   },
 });
