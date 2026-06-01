@@ -9,10 +9,19 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   );
 }
 
-function SettingRow({ icon, label, sub, toggle, onToggle }: { icon: string; label: string; sub?: string; toggle?: boolean; onToggle?: () => void }) {
+function SettingRow({
+  label,
+  sub,
+  toggle,
+  onToggle,
+}: {
+  label: string;
+  sub?: string;
+  toggle?: boolean;
+  onToggle?: () => void;
+}) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', padding: '14px 16px', gap: 12 }}>
-      <div style={{ width: 36, height: 36, borderRadius: 10, background: C.accentSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{icon}</div>
       <div style={{ flex: 1 }}>
         <div style={{ color: C.text, fontSize: 15, fontWeight: 500 }}>{label}</div>
         {sub && <div style={{ color: C.textSec, fontSize: 12, marginTop: 2 }}>{sub}</div>}
@@ -22,7 +31,13 @@ function SettingRow({ icon, label, sub, toggle, onToggle }: { icon: string; labe
   );
 }
 
-export default function Profile() {
+export default function Profile({
+  smartPicksCount,
+  totalRewards,
+}: {
+  smartPicksCount: number;
+  totalRewards: number;
+}) {
   const [onDevice, setOnDevice] = useState(true);
   const [location, setLocation] = useState(true);
   const [alerts, setAlerts] = useState(true);
@@ -32,63 +47,59 @@ export default function Profile() {
     <div style={{ height: '100%', overflowY: 'auto', padding: '56px 16px 20px' }}>
       <div style={{ color: C.text, fontSize: 26, fontWeight: 700, letterSpacing: -0.5, marginBottom: 20 }}>Profile</div>
 
-      {/* Subscription card */}
-      <div style={{ background: `linear-gradient(135deg, ${C.wpStart}, ${C.wpEnd})`, borderRadius: 20, padding: 22, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, boxShadow: `0 4px 20px ${C.wpStart}55` }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F1013, #1B1E24)', borderRadius: 20, padding: 22, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, border: `1px solid ${C.border}` }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
-            <span style={{ fontSize: 16 }}>💳</span>
-            <span style={{ color: '#fff', fontSize: 14, fontWeight: 700 }}>Wallet+</span>
-          </div>
-          <div style={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>Premium Plan</div>
-          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>$3.99 / month</div>
+          <span style={{ color: C.walletGreen, fontSize: 14, fontWeight: 700 }}>Wallet+</span>
+          <div style={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>Prototype Settings</div>
+          <div style={{ color: C.textSec, fontSize: 13 }}>Apple Wallet flow with smart card routing layered on top</div>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 44 }}>✓</div>
-          <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600 }}>Active</div>
+          <div style={{ color: '#fff', fontSize: 30, fontWeight: 700 }}>{smartPicksCount}</div>
+          <div style={{ color: C.textSec, fontSize: 11, fontWeight: 600 }}>smart picks</div>
         </div>
       </div>
 
-      {/* Stats */}
       <div style={{ display: 'flex', background: C.surface, borderRadius: 16, padding: '18px 0', marginBottom: 28, border: `0.5px solid ${C.border}` }}>
-        {[{ val: '23', label: 'Smart picks' }, { val: '$62.30', label: 'Rewards earned' }, { val: '4', label: 'Cards linked' }].map((s, i, arr) => (
-          <div key={s.label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, borderRight: i < arr.length - 1 ? `0.5px solid ${C.border}` : 'none' }}>
-            <div style={{ color: C.text, fontSize: 17, fontWeight: 700 }}>{s.val}</div>
-            <div style={{ color: C.textSec, fontSize: 11, fontWeight: 500, textAlign: 'center' }}>{s.label}</div>
+        {[
+          { val: `${smartPicksCount}`, label: 'Smart picks' },
+          { val: `$${totalRewards.toFixed(2)}`, label: 'Rewards shown' },
+          { val: '4', label: 'Cards linked' },
+        ].map((stat, index, all) => (
+          <div key={stat.label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, borderRight: index < all.length - 1 ? `0.5px solid ${C.border}` : 'none' }}>
+            <div style={{ color: C.text, fontSize: 17, fontWeight: 700 }}>{stat.val}</div>
+            <div style={{ color: C.textSec, fontSize: 11, fontWeight: 500, textAlign: 'center' }}>{stat.label}</div>
           </div>
         ))}
       </div>
 
-      {/* Privacy */}
       <div style={{ color: C.textSec, fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10, marginLeft: 4 }}>Privacy</div>
       <div style={{ background: C.surface, borderRadius: 16, overflow: 'hidden', marginBottom: 24, border: `0.5px solid ${C.border}` }}>
-        <SettingRow icon="🛡️" label="On-Device Processing" sub="All recommendation logic runs locally" toggle={onDevice} onToggle={() => setOnDevice(v => !v)} />
+        <SettingRow label="On-Device Processing" sub="Recommendation logic stays local to the device" toggle={onDevice} onToggle={() => setOnDevice((value) => !value)} />
         <div style={{ height: 0.5, background: C.border }} />
-        <SettingRow icon="📍" label="Location Access" sub="Used to detect merchant category" toggle={location} onToggle={() => setLocation(v => !v)} />
+        <SettingRow label="Location Access" sub="Used only to infer merchant type at checkout" toggle={location} onToggle={() => setLocation((value) => !value)} />
       </div>
 
-      {/* Notifications */}
       <div style={{ color: C.textSec, fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10, marginLeft: 4 }}>Notifications</div>
       <div style={{ background: C.surface, borderRadius: 16, overflow: 'hidden', marginBottom: 24, border: `0.5px solid ${C.border}` }}>
-        <SettingRow icon="⭐" label="Reward Alerts" sub="Notify when you earn rewards" toggle={alerts} onToggle={() => setAlerts(v => !v)} />
+        <SettingRow label="Reward Alerts" sub="Notify when Wallet+ finds a better earning card" toggle={alerts} onToggle={() => setAlerts((value) => !value)} />
         <div style={{ height: 0.5, background: C.border }} />
-        <SettingRow icon="🔔" label="Checkout Nudges" sub="Remind to switch cards at checkout" toggle={nudges} onToggle={() => setNudges(v => !v)} />
+        <SettingRow label="Checkout Nudges" sub="Keep manual override available in the stack" toggle={nudges} onToggle={() => setNudges((value) => !value)} />
       </div>
 
-      {/* About */}
       <div style={{ color: C.textSec, fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10, marginLeft: 4 }}>About</div>
       <div style={{ background: C.surface, borderRadius: 16, overflow: 'hidden', marginBottom: 20, border: `0.5px solid ${C.border}` }}>
-        {['Privacy Policy', 'Terms of Service', 'How Recommendations Work'].map((label, i, arr) => (
+        {['How Wallet+ works', 'Design notes', 'Privacy summary'].map((label, index, all) => (
           <div key={label}>
-            <SettingRow icon="📄" label={label} />
-            {i < arr.length - 1 && <div style={{ height: 0.5, background: C.border }} />}
+            <SettingRow label={label} />
+            {index < all.length - 1 && <div style={{ height: 0.5, background: C.border }} />}
           </div>
         ))}
       </div>
 
       {onDevice && (
         <div style={{ display: 'flex', gap: 8, padding: '0 4px' }}>
-          <span style={{ color: C.success, fontSize: 14 }}>🛡️</span>
-          <span style={{ color: C.textSec, fontSize: 12, lineHeight: 1.5 }}>On-device processing is active. Your financial data never leaves this device.</span>
+          <span style={{ color: C.success, fontSize: 14 }}>Private</span>
+          <span style={{ color: C.textSec, fontSize: 12, lineHeight: 1.5 }}>This prototype assumes Wallet+ sits inside Apple Wallet without changing the privacy model users already expect.</span>
         </div>
       )}
       <div style={{ height: 30 }} />
