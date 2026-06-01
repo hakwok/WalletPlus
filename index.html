@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Wallet+</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body, #root { height: 100%; background: #000; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow: hidden;
+      }
+      ::-webkit-scrollbar { display: none; }
+      * { scrollbar-width: none; -ms-overflow-style: none; }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.12); opacity: 0.85; }
+      }
+      @keyframes popIn {
+        0% { transform: scale(0); opacity: 0; }
+        70% { transform: scale(1.1); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    </style>
+    <script type="module" crossorigin src="/WalletPlus/assets/index-Bk7Q82Gi.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
